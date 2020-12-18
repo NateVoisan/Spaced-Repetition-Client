@@ -8,25 +8,32 @@ import LoginRoute from '../../routes/LoginRoute/LoginRoute'
 import DashboardRoute from '../../routes/DashboardRoute/DashboardRoute'
 import LearningRoute from '../../routes/LearningRoute/LearningRoute'
 import NotFoundRoute from '../../routes/NotFoundRoute/NotFoundRoute'
+import DataContext, { LanguageProvider } from '../../contexts/DataContext'
 import './App.css'
 
 export default class App extends Component {
-  state = { hasError: false }
+  state = {
+    hasError: false
+  }
+
+  static contextType = DataContext
 
   static getDerivedStateFromError(error) {
     console.error(error)
     return { hasError: true }
   }
 
+
   render() {
-    const { hasError } = this.state
+    const contextValue = {
+      hasError: this.state.hasError
+    }
     return (
+      <LanguageProvider>
       <div className='App'>
         <Header />
         <main>
-          {hasError && (
-            <p>There was an error! Oh no!</p>
-          )}
+          {(contextValue.hasError === true) ? <p>There was an error! Oh no!</p> : null}
           <Switch>
             <PrivateRoute
               exact
@@ -51,6 +58,7 @@ export default class App extends Component {
           </Switch>
         </main>
       </div>
+     </LanguageProvider>
     );
   }
 }

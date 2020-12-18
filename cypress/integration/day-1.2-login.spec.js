@@ -28,7 +28,7 @@ describe(`User story: Login`, function() {
     cy.get('header nav').within($nav => {
       cy.get('a[href="/login"]')
         .should('be.visible')
-        .and('have.text', 'Login')
+        .and('have.text', 'Login ')
     })
 
     cy.get('main section').within($nav => {
@@ -45,7 +45,7 @@ describe(`User story: Login`, function() {
     cy.visit('/login')
       .get('a[href="/register"]')
       .should('be.visible')
-      .and('have.text', 'Sign up')
+      .and('have.text', ' Sign up')
   })
 
   it('displays the login page', () => {
@@ -64,13 +64,13 @@ describe(`User story: Login`, function() {
 
     cy.get('section form').within(() => {
       cy.get('label[for=login-username-input]')
-        .should('have.text', 'Username')
+        .should('have.text', 'Username *')
       cy.get('input#login-username-input')
         .should('have.attr', 'type', 'text')
         .and('have.attr', 'required', 'required')
 
       cy.get('label[for=login-password-input]')
-        .should('have.text', 'Password')
+        .should('have.text', 'Password *')
       cy.get('input#login-password-input')
         .should('have.attr', 'type', 'password')
         .and('have.attr', 'required', 'required')
@@ -162,8 +162,8 @@ describe(`User story: Login`, function() {
 
     it(`stores token in localStorage and redirects to /`, () => {
       const loginUser = {
-        username: 'username',
-        password: 'password',
+        username: 'admin',
+        password: 'pass',
       }
       cy.visit('/login')
 
@@ -178,6 +178,7 @@ describe(`User story: Login`, function() {
         cy.wait('@loginRequest')
           .window()
           .then(win => {
+            console.log(win.localStorage)
             const tokenInStorage = win.localStorage.getItem(
               Cypress.env('TOKEN_KEY')
             )
@@ -193,7 +194,7 @@ describe(`User story: Login`, function() {
       cy.login().visit('/')
 
       cy.get('header').within($header => {
-        cy.contains('Test name of user').should('exist')
+        cy.contains('Dunder Mifflin Admin').should('exist')
         cy.get('nav a')
           .should('have.length', 1)
           .and('have.text', 'Logout')

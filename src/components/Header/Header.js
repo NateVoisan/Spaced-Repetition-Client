@@ -14,10 +14,15 @@ class Header extends Component {
   renderLogoutLink() {
     return (
       <div>
-        <span>
-          {this.context.user.name}
-        </span>
+
         <nav>
+          <span className="username">
+            {this.context.user.name}
+          </span>
+          <span className='hyphen'>
+            {' - '}
+          </span>
+          {' '}
           <Link
             onClick={this.handleLogoutClick}
             to='/login'>
@@ -31,9 +36,9 @@ class Header extends Component {
   renderLoginLink() {
     return (
       <nav>
-        <Link to='/login'>Login</Link>
-        {' '}
-        <Link to='/register'>Sign up</Link>
+        <Link to='/login'>Login </Link>
+        {' '} -
+        <Link to='/register'> Sign up</Link>
       </nav>
     )
   }
@@ -41,14 +46,14 @@ class Header extends Component {
   render() {
     return (
       <header>
-        <h1>
-          <Link to='/'>
-            Spaced repetition
-          </Link>
-        </h1>
         {TokenService.hasAuthToken()
           ? this.renderLogoutLink()
           : this.renderLoginLink()}
+        <h1>
+          <Link to='/'>
+            Spaced Repetition
+          </Link>
+        </h1>
       </header>
     );
   }
